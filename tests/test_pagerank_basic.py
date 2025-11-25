@@ -36,13 +36,13 @@ def test_triangle_graph():
 def test_star_graph_center_dominates():
     """
     Star graph:
-        1 → 0
-        2 → 0
-        3 → 0
-        4 → 0
-
-    Node 0 receives all links, so it should have the highest PageRank.Star graph:   
-    """  
+          1
+          |
+      2---0---3
+          |
+          4
+          
+          """  
     edges = [(1, 0), (2, 0), (3, 0), (4, 0)]
     graph = build_graph_from_edges(edges)
     ranks = pagerank(graph, alpha=0.85)
