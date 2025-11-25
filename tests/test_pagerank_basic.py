@@ -1,20 +1,3 @@
-from pagerank_lab.graph import DiGraph
-from pagerank_lab.pagerank import pagerank
-
-
-def test_simple_equal_split():
-    # A -> B, A -> C ; B, C have no out edges
-    g = DiGraph()
-    g.add_edge('A', 'B')
-    g.add_edge('A', 'C')
-
-    pr = pagerank(g, damping=0.85)
-    # all nodes should be present
-    assert set(pr.keys()) == {'A', 'B', 'C'}
-    # ranks should sum to 1
-    assert abs(sum(pr.values()) - 1.0) < 1e-9
-    # B and C should have equal rank (symmetry)
-    assert abs(pr['B'] - pr['C']) < 1e-9
 # tests/test_pagerank_basic.py
 from pagerank_lab.graph import build_graph_from_edges
 from pagerank_lab.pagerank import pagerank
