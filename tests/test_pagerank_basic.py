@@ -2,7 +2,6 @@
 from pagerank_lab.graph import build_graph_from_edges
 from pagerank_lab.pagerank import pagerank
 
-
 def test_two_node_chain():
     # 0 -> 1
     graph = build_graph_from_edges([(0, 1)])
