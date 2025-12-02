@@ -1,4 +1,5 @@
 # tests/test_pagerank_basic.py
+from shapely import node
 from pagerank_lab.graph import build_graph_from_edges
 from pagerank_lab.pagerank import pagerank
 
@@ -29,3 +30,36 @@ def test_triangle_graph():
     assert diff01 < 1e-6
     assert diff12 < 1e-6
     assert diff20 < 1e-6
+
+
+def test_star_graph_center_dominates():
+    """
+    Star graph:
+        1 → 0
+        2 → 0
+        3 → 0
+        4 → 0
+
+    Node 0 receives all links, so it should have the highest PageRank.Star graph:   
+    """  
+    edges = [(1, 0), (2, 0), (3, 0), (4, 0)]
+    graph = build_graph_from_edges(edges)
+    ranks = pagerank(graph, alpha=0.85)
+
+    # Rank vector should sum to ~1
+    assert abs(sum(ranks.values()) - 1.0) < 1e-6
+
+    # Center node 0 should have the highest rank
+    center_rank = ranks[0]
+    leaf_ranks = [ranks[node] for node in [1, 2, 3, 4]]
+
+    assert all(center_rank > leaf_rank for leaf_rank in leaf_ranks)
+
+    #leaves should be symmetric
+    diffs = [
+        abs(ranks[1] - ranks[2]),
+        abs(ranks[2] - ranks[3]),
+        abs(ranks[3] - ranks[4]),
+    ]
+    
+    assert all(d < 1e-6 for d in diffs)
